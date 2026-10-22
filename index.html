@@ -60,23 +60,16 @@
 
     /* ================= UNIQUE CENTERED HERO ================= */
     .hero { 
-      min-height: 100vh; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center; 
-      text-align: center;
+      min-height: 100vh; display: flex; flex-direction: column; 
+      justify-content: center; align-items: center; text-align: center;
       padding-top: 100px;
     }
     
     .eyebrow { color: var(--accent); font-size: 0.9rem; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px; }
-    
     h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: 1; margin-bottom: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; color: #fff; text-shadow: 0 0 20px var(--accent-dim);}
-    
     .hero p { color: var(--muted); font-size: 1.2rem; max-width: 700px; margin-bottom: 40px; }
     
     .actions { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 60px;}
-    
     .btn { display: inline-block; padding: 16px 32px; border-radius: 4px; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; border: 1px solid var(--border); }
     .btn.primary { background: var(--accent); color: #05140a; border-color: var(--accent); }
     .btn.primary:hover { box-shadow: 0 0 30px var(--accent); transform: translateY(-3px); }
@@ -85,56 +78,31 @@
 
     /* ================= GLOWING BADGE PFP ================= */
     .badge-pfp-container {
-      position: relative;
-      width: 280px;
-      height: 280px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      position: relative; width: 280px; height: 280px; 
+      display: flex; justify-content: center; align-items: center;
     }
-
-    /* Rotating hex background */
     .badge-bg {
-      position: absolute;
-      width: 100%; height: 100%;
+      position: absolute; width: 100%; height: 100%;
       background: conic-gradient(from 0deg, transparent, var(--accent), transparent, var(--accent), transparent);
-      border-radius: 50%;
-      animation: spin 6s linear infinite;
-      filter: blur(10px);
-      opacity: 0.6;
+      border-radius: 50%; animation: spin 6s linear infinite;
+      filter: blur(10px); opacity: 0.6;
     }
-
     @keyframes spin { 100% { transform: rotate(360deg); } }
 
     .badge-photo-box {
-      position: relative;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      background: #0a1f12;
+      position: relative; width: 240px; height: 240px;
+      border-radius: 50%; background: #0a1f12;
       border: 3px solid var(--accent);
       box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 30px var(--accent-dim);
-      overflow: hidden;
-      z-index: 2;
-      display: flex; justify-content: center; align-items: center;
+      overflow: hidden; z-index: 2; display: flex; justify-content: center; align-items: center;
     }
-
-    .badge-photo-box img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s;
-    }
-
+    .badge-photo-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
     .badge-photo-box:hover img { transform: scale(1.1); }
 
-    /* Tech Accents around the badge */
     .badge-ring {
-      position: absolute;
-      width: 270px; height: 270px;
-      border-radius: 50%;
-      border: 1px dashed var(--accent);
-      animation: spin 20s linear infinite reverse;
-      z-index: 3;
+      position: absolute; width: 270px; height: 270px;
+      border-radius: 50%; border: 1px dashed var(--accent);
+      animation: spin 20s linear infinite reverse; z-index: 3;
     }
 
     /* ================= TECH CARDS ================= */
@@ -143,21 +111,17 @@
     .section-head h2 { font-size: 3rem; color: #fff; text-transform: uppercase; font-weight: 900; }
     .section-head p { color: var(--muted); margin-top: 10px; font-size: 1.1rem;}
 
-    .about-grid, .skills-grid, .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .about-grid, .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .project-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
 
     .tech-card {
       background: var(--surface); backdrop-filter: blur(10px); padding: 35px; border: 1px solid var(--border); border-radius: 8px; transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-    
-    /* Animated green left border on hover */
     .tech-card::before {
       content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-      background: var(--accent);
-      transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s;
+      background: var(--accent); transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s;
     }
-
     .tech-card:hover::before { transform: scaleY(1); transform-origin: top; }
     .tech-card:hover { background: rgba(0, 255, 135, 0.05); box-shadow: 0 0 20px rgba(0, 255, 135, 0.1); }
     
@@ -168,13 +132,13 @@
     .pill { background: rgba(0, 255, 135, 0.1); color: var(--accent); padding: 6px 14px; font-size: 0.8rem; font-weight: 700; border: 1px solid var(--border); border-radius: 4px; }
 
     /* ================= CERTIFICATES ================= */
-    .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
     .cert-card {
       background: var(--surface); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; transition: all 0.3s;
     }
     .cert-card:hover { transform: translateY(-5px); border-color: var(--accent); }
     .cert-card h3 { font-size: 1rem; color: var(--accent); text-align: center; letter-spacing: 2px; text-transform: uppercase; font-weight: 900; }
-    .cert-preview { width: 100%; height: 250px; object-fit: cover; object-position: top; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+    .cert-preview { width: 100%; height: 200px; object-fit: cover; object-position: top; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
     
     .cert-actions { display: flex; gap: 10px; margin-top: auto; }
     .cert-actions a { flex: 1; text-align: center; font-size: 0.8rem; padding: 10px; font-weight: 800; text-transform: uppercase; background: transparent; border: 1px solid var(--border); color: var(--text); border-radius: 4px; transition: all 0.3s; }
@@ -187,12 +151,16 @@
 
     /* ================= RESPONSIVE ================= */
     @media (max-width: 900px) {
-      .about-grid, .skills-grid, .project-grid, .cert-grid, .contact-grid { grid-template-columns: 1fr; }
+      .about-grid, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+      .cert-grid { grid-template-columns: repeat(2, 1fr); }
       .navlinks { display: none; }
       .resume-band { flex-direction: column; text-align: center; }
       .badge-pfp-container { width: 220px; height: 220px; }
       .badge-photo-box { width: 180px; height: 180px; }
       .badge-ring { width: 210px; height: 210px; }
+    }
+    @media (max-width: 600px) {
+      .cert-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -237,8 +205,8 @@
           <div class="badge-bg"></div>
           <div class="badge-ring"></div>
           <div class="badge-photo-box">
-            <!-- ENSURE THE IMAGE IS NAMED justine.png -->
-            <img src="justine.png" alt="Justine Keil Fabros" />
+            <!-- EXACT FILENAME FROM SCREENSHOT -->
+            <img src="pfp.png" alt="Justine Keil Fabros" />
           </div>
         </div>
       </div>
@@ -329,40 +297,23 @@
         <div class="project-grid">
           
           <article class="tech-card hidden-el">
-            <h3>Barangay Villasis E-Barangay Services</h3>
-            <p>A web-based system for barangay services with an admin panel for staff and online services for residents.</p>
+            <h3>Barangay Villasis E-Barangay Services (Mobile view)</h3>
+            <p>The same barangay services, made easy to use on a phone. It has a dashboard, a services list, and a Book Now button for health center appointments.</p>
             <div class="pillrow">
-              <span class="pill">Web Development</span>
-              <span class="pill">Database</span>
-              <span class="pill">Admin Panel</span>
+              <span class="pill">PHP</span>
+              <span class="pill">MySQL</span>
+              <span class="pill">HTML</span>
+              <span class="pill">CSS</span>
             </div>
-          </article>
-
-          <article class="tech-card hidden-el">
-            <h3>IT Helpdesk Ticketing System</h3>
-            <p>A basic ticketing system concept that allows users to submit IT issues and allows administrators to track and resolve them efficiently.</p>
-            <div class="pillrow"><span class="pill">Java</span><span class="pill">MySQL</span><span class="pill">UI Design</span></div>
-          </article>
-
-          <article class="tech-card hidden-el">
-            <h3>Basic Network Configuration</h3>
-            <p>Configured a small Local Area Network (LAN) for a practice laboratory, including IP addressing, cable crimping, and basic router security.</p>
-            <div class="pillrow"><span class="pill">Networking</span><span class="pill">Hardware</span></div>
-          </article>
-
-          <article class="tech-card hidden-el">
-            <h3>Hardware & Software Diagnostics</h3>
-            <p>Performed troubleshooting and maintenance on laboratory computers, identifying faulty components and performing system updates and OS reinstallations.</p>
-            <div class="pillrow"><span class="pill">Troubleshooting</span><span class="pill">OS Install</span></div>
           </article>
 
         </div>
       </div>
     </section>
 
-    <!-- CERTIFICATES -->
+    <!-- CERTIFICATES (EXACT FILES FROM SCREENSHOT) -->
     <section id="profdev">
-      <div class="wrap-narrow">
+      <div class="wrap">
         <div class="section-head hidden-el">
           <div class="eyebrow">Professional Development</div>
           <h2>Certificates</h2>
@@ -370,28 +321,82 @@
 
         <div class="cert-grid">
           
+          <!-- TESDA (5) -->
           <article class="cert-card hidden-el">
-            <h3>Certificate Title 1</h3>
-            <a href="cert1.jpg" target="_blank"><img class="cert-preview" src="cert1.jpg" alt="Certificate 1" /></a>
-            <div class="cert-actions"><a href="cert1.jpg" target="_blank">View</a><a href="cert1.jpg" download="Certificate-1.jpg" class="download">Save</a></div>
+            <h3>TESDA</h3>
+            <a href="1.jpg" target="_blank"><img class="cert-preview" src="1.jpg" alt="TESDA 1" /></a>
+            <div class="cert-actions"><a href="1.jpg" target="_blank">View</a><a href="1.jpg" download="TESDA-1.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>TESDA</h3>
+            <a href="2.jpg" target="_blank"><img class="cert-preview" src="2.jpg" alt="TESDA 2" /></a>
+            <div class="cert-actions"><a href="2.jpg" target="_blank">View</a><a href="2.jpg" download="TESDA-2.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>TESDA</h3>
+            <a href="3.jpg" target="_blank"><img class="cert-preview" src="3.jpg" alt="TESDA 3" /></a>
+            <div class="cert-actions"><a href="3.jpg" target="_blank">View</a><a href="3.jpg" download="TESDA-3.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>TESDA</h3>
+            <a href="4.jpg" target="_blank"><img class="cert-preview" src="4.jpg" alt="TESDA 4" /></a>
+            <div class="cert-actions"><a href="4.jpg" target="_blank">View</a><a href="4.jpg" download="TESDA-4.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>TESDA</h3>
+            <a href="5.jpg" target="_blank"><img class="cert-preview" src="5.jpg" alt="TESDA 5" /></a>
+            <div class="cert-actions"><a href="5.jpg" target="_blank">View</a><a href="5.jpg" download="TESDA-5.jpg" class="download">Save</a></div>
           </article>
 
+          <!-- DICT (4) -->
           <article class="cert-card hidden-el">
-            <h3>Certificate Title 2</h3>
-            <a href="cert2.jpg" target="_blank"><img class="cert-preview" src="cert2.jpg" alt="Certificate 2" /></a>
-            <div class="cert-actions"><a href="cert2.jpg" target="_blank">View</a><a href="cert2.jpg" download="Certificate-2.jpg" class="download">Save</a></div>
+            <h3>DICT</h3>
+            <a href="dict1.jpg" target="_blank"><img class="cert-preview" src="dict1.jpg" alt="DICT 1" /></a>
+            <div class="cert-actions"><a href="dict1.jpg" target="_blank">View</a><a href="dict1.jpg" download="DICT-1.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>DICT</h3>
+            <a href="dict2.jpg" target="_blank"><img class="cert-preview" src="dict2.jpg" alt="DICT 2" /></a>
+            <div class="cert-actions"><a href="dict2.jpg" target="_blank">View</a><a href="dict2.jpg" download="DICT-2.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>DICT</h3>
+            <a href="dict3.jpg" target="_blank"><img class="cert-preview" src="dict3.jpg" alt="DICT 3" /></a>
+            <div class="cert-actions"><a href="dict3.jpg" target="_blank">View</a><a href="dict3.jpg" download="DICT-3.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>DICT</h3>
+            <a href="dict4.jpg" target="_blank"><img class="cert-preview" src="dict4.jpg" alt="DICT 4" /></a>
+            <div class="cert-actions"><a href="dict4.jpg" target="_blank">View</a><a href="dict4.jpg" download="DICT-4.jpg" class="download">Save</a></div>
           </article>
 
+          <!-- MICROSOFT (4) -->
           <article class="cert-card hidden-el">
-            <h3>Certificate Title 3</h3>
-            <a href="cert3.jpg" target="_blank"><img class="cert-preview" src="cert3.jpg" alt="Certificate 3" /></a>
-            <div class="cert-actions"><a href="cert3.jpg" target="_blank">View</a><a href="cert3.jpg" download="Certificate-3.jpg" class="download">Save</a></div>
+            <h3>Microsoft</h3>
+            <a href="m1.jpg" target="_blank"><img class="cert-preview" src="m1.jpg" alt="Microsoft 1" /></a>
+            <div class="cert-actions"><a href="m1.jpg" target="_blank">View</a><a href="m1.jpg" download="Microsoft-1.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>Microsoft</h3>
+            <a href="m2.jpg" target="_blank"><img class="cert-preview" src="m2.jpg" alt="Microsoft 2" /></a>
+            <div class="cert-actions"><a href="m2.jpg" target="_blank">View</a><a href="m2.jpg" download="Microsoft-2.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>Microsoft</h3>
+            <a href="m3.jpg" target="_blank"><img class="cert-preview" src="m3.jpg" alt="Microsoft 3" /></a>
+            <div class="cert-actions"><a href="m3.jpg" target="_blank">View</a><a href="m3.jpg" download="Microsoft-3.jpg" class="download">Save</a></div>
+          </article>
+          <article class="cert-card hidden-el">
+            <h3>Microsoft</h3>
+            <a href="m4.jpg" target="_blank"><img class="cert-preview" src="m4.jpg" alt="Microsoft 4" /></a>
+            <div class="cert-actions"><a href="m4.jpg" target="_blank">View</a><a href="m4.jpg" download="Microsoft-4.jpg" class="download">Save</a></div>
           </article>
 
+          <!-- NETACAD (1) -->
           <article class="cert-card hidden-el">
-            <h3>Certificate Title 4</h3>
-            <a href="cert4.jpg" target="_blank"><img class="cert-preview" src="cert4.jpg" alt="Certificate 4" /></a>
-            <div class="cert-actions"><a href="cert4.jpg" target="_blank">View</a><a href="cert4.jpg" download="Certificate-4.jpg" class="download">Save</a></div>
+            <h3>NetAcad</h3>
+            <a href="net1.jpg" target="_blank"><img class="cert-preview" src="net1.jpg" alt="NetAcad" /></a>
+            <div class="cert-actions"><a href="net1.jpg" target="_blank">View</a><a href="net1.jpg" download="NetAcad-1.jpg" class="download">Save</a></div>
           </article>
 
         </div>
@@ -406,6 +411,7 @@
             <h2>Download my resume</h2>
             <p>My resume is available for viewing and download.</p>
           </div>
+          <!-- EXACT FILENAME FROM SCREENSHOT -->
           <a class="btn primary" href="resume.pdf" download="Justine-Fabros-Resume.pdf">Download Resume</a>
         </div>
       </div>
@@ -454,7 +460,7 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Characters to display (Katakana, Latin, Numbers)
+    // Characters to display
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+{}|:"<>?';
     const fontSize = 16;
     const columns = canvas.width / fontSize;
