@@ -1,38 +1,501 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Justine Keil Fabros's IT Portfolio" />
+  <title>Justine Keil Fabros | IT Portfolio</title>
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+  <style>
+    /* ================= DARK FOREST & EMERALD THEME ================= */
+    :root {
+      --bg: #05140a; 
+      --surface: rgba(10, 30, 18, 0.75); 
+      --text: #e8f5e9;
+      --muted: #81c784;
+      --accent: #00ff87; 
+      --accent-dim: rgba(0, 255, 135, 0.2);
+      --border: rgba(0, 255, 135, 0.3);
+    }
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
+    /* Canvas for Matrix Rain */
+    #matrix-canvas {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1; pointer-events: none; opacity: 0.4;
+    }
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    
+    .wrap { width: min(1200px, calc(100% - 40px)); margin: auto; }
+    .wrap-narrow { width: min(1000px, calc(100% - 40px)); margin: auto; }
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="expense_app">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    /* ================= SCROLL ANIMATIONS ================= */
+    .hidden-el { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+    .show-el { opacity: 1; transform: translateY(0); }
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+    /* ================= HEADER ================= */
+    header {
+      position: fixed; width: 100%; top: 0; z-index: 10;
+      background: rgba(5, 20, 10, 0.8); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav { height: 75px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-weight: 900; font-size: 1.2rem; letter-spacing: 3px; color: #fff; }
+    .brand span { color: var(--accent); }
+    .navlinks { display: flex; gap: 30px; }
+    .navlinks a { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); transition: all 0.3s; }
+    .navlinks a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
 
-  <title>expense_app</title>
-  <link rel="manifest" href="manifest.json">
+    /* ================= UNIQUE CENTERED HERO ================= */
+    .hero { 
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      text-align: center;
+      padding-top: 100px;
+    }
+    
+    .eyebrow { color: var(--accent); font-size: 0.9rem; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px; }
+    
+    h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: 1; margin-bottom: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; color: #fff; text-shadow: 0 0 20px var(--accent-dim);}
+    
+    .hero p { color: var(--muted); font-size: 1.2rem; max-width: 700px; margin-bottom: 40px; }
+    
+    .actions { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-bottom: 60px;}
+    
+    .btn { display: inline-block; padding: 16px 32px; border-radius: 4px; font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; border: 1px solid var(--border); }
+    .btn.primary { background: var(--accent); color: #05140a; border-color: var(--accent); }
+    .btn.primary:hover { box-shadow: 0 0 30px var(--accent); transform: translateY(-3px); }
+    .btn.secondary { background: transparent; color: #fff; }
+    .btn.secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+
+    /* ================= GLOWING BADGE PFP ================= */
+    .badge-pfp-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Rotating hex background */
+    .badge-bg {
+      position: absolute;
+      width: 100%; height: 100%;
+      background: conic-gradient(from 0deg, transparent, var(--accent), transparent, var(--accent), transparent);
+      border-radius: 50%;
+      animation: spin 6s linear infinite;
+      filter: blur(10px);
+      opacity: 0.6;
+    }
+
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    .badge-photo-box {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: #0a1f12;
+      border: 3px solid var(--accent);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 30px var(--accent-dim);
+      overflow: hidden;
+      z-index: 2;
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    .badge-photo-box img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .badge-photo-box:hover img { transform: scale(1.1); }
+
+    /* Tech Accents around the badge */
+    .badge-ring {
+      position: absolute;
+      width: 270px; height: 270px;
+      border-radius: 50%;
+      border: 1px dashed var(--accent);
+      animation: spin 20s linear infinite reverse;
+      z-index: 3;
+    }
+
+    /* ================= TECH CARDS ================= */
+    section { padding: 100px 0; }
+    .section-head { margin-bottom: 40px; text-align: center; }
+    .section-head h2 { font-size: 3rem; color: #fff; text-transform: uppercase; font-weight: 900; }
+    .section-head p { color: var(--muted); margin-top: 10px; font-size: 1.1rem;}
+
+    .about-grid, .skills-grid, .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+
+    .tech-card {
+      background: var(--surface); backdrop-filter: blur(10px); padding: 35px; border: 1px solid var(--border); border-radius: 8px; transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Animated green left border on hover */
+    .tech-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--accent);
+      transform: scaleY(0); transform-origin: bottom; transition: transform 0.3s;
+    }
+
+    .tech-card:hover::before { transform: scaleY(1); transform-origin: top; }
+    .tech-card:hover { background: rgba(0, 255, 135, 0.05); box-shadow: 0 0 20px rgba(0, 255, 135, 0.1); }
+    
+    .tech-card h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--accent); text-transform: uppercase;}
+    .tech-card p { color: var(--muted); font-size: 1.05rem;}
+    
+    .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .pill { background: rgba(0, 255, 135, 0.1); color: var(--accent); padding: 6px 14px; font-size: 0.8rem; font-weight: 700; border: 1px solid var(--border); border-radius: 4px; }
+
+    /* ================= CERTIFICATES ================= */
+    .cert-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
+    .cert-card {
+      background: var(--surface); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; transition: all 0.3s;
+    }
+    .cert-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+    .cert-card h3 { font-size: 1rem; color: var(--accent); text-align: center; letter-spacing: 2px; text-transform: uppercase; font-weight: 900; }
+    .cert-preview { width: 100%; height: 250px; object-fit: cover; object-position: top; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+    
+    .cert-actions { display: flex; gap: 10px; margin-top: auto; }
+    .cert-actions a { flex: 1; text-align: center; font-size: 0.8rem; padding: 10px; font-weight: 800; text-transform: uppercase; background: transparent; border: 1px solid var(--border); color: var(--text); border-radius: 4px; transition: all 0.3s; }
+    .cert-actions a:hover { background: var(--accent); color: #05140a; }
+    .cert-actions a.download { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+
+    /* ================= RESUME & CONTACT ================= */
+    .resume-band { background: var(--surface); border: 1px solid var(--accent); border-radius: 8px; padding: 40px; display: flex; justify-content: space-between; align-items: center; gap: 30px; flex-wrap: wrap; box-shadow: 0 0 30px var(--accent-dim);}
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 900px) {
+      .about-grid, .skills-grid, .project-grid, .cert-grid, .contact-grid { grid-template-columns: 1fr; }
+      .navlinks { display: none; }
+      .resume-band { flex-direction: column; text-align: center; }
+      .badge-pfp-container { width: 220px; height: 220px; }
+      .badge-photo-box { width: 180px; height: 180px; }
+      .badge-ring { width: 210px; height: 210px; }
+    }
+  </style>
 </head>
+
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+
+  <!-- MATRIX RAIN BACKGROUND -->
+  <canvas id="matrix-canvas"></canvas>
+
+  <header>
+    <div class="wrap">
+      <nav>
+        <a class="brand" href="#home">JUSTINE<span>.</span></a>
+        <div class="navlinks">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#profdev">Certificates</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- UNIQUE CENTERED HERO -->
+    <div class="wrap hero" id="home">
+      <div class="hidden-el">
+        <div class="eyebrow">Information Technology Student</div>
+        <h1>Justine Keil<br>Fabros</h1>
+        <p>Motivated third-year IT student with an interest in technology and continuous learning. Possesses good communication, teamwork, and problem-solving skills.</p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">View My Projects</a>
+          <a class="btn secondary" href="#resume">Download Resume</a>
+        </div>
+      </div>
+      
+      <div class="hidden-el">
+        <!-- GLOWING BADGE PFP -->
+        <div class="badge-pfp-container">
+          <div class="badge-bg"></div>
+          <div class="badge-ring"></div>
+          <div class="badge-photo-box">
+            <!-- ENSURE THE IMAGE IS NAMED justine.png -->
+            <img src="justine.png" alt="Justine Keil Fabros" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="wrap-narrow">
+        <div class="section-head hidden-el">
+          <div class="eyebrow">About Me</div>
+          <h2>Eager to Learn.</h2>
+        </div>
+        <div class="about-grid">
+          <article class="tech-card hidden-el">
+            <h3>My Goal</h3>
+            <p>Willing to learn new technologies, improve technical knowledge, and adapt to new challenges. Eager to apply academic knowledge, develop practical skills, and gain valuable experience in a professional working environment.</p>
+          </article>
+          <article class="tech-card hidden-el">
+            <h3>Career Objective</h3>
+            <p>Seeking an OJT or internship position where I can apply my knowledge in Information Technology, develop my technical and communication skills, and gain practical experience while learning from professionals.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="wrap-narrow">
+        <div class="section-head hidden-el">
+          <div class="eyebrow">Education</div>
+          <h2>Academic Background</h2>
+        </div>
+        <article class="tech-card hidden-el">
+          <h3>Northeastern College (2026 – Present)</h3>
+          <p>Bachelor of Science in Information Technology (3rd Year College)</p>
+          <div class="pillrow">
+            <span class="pill">Computer Applications</span>
+            <span class="pill">Information Management</span>
+            <span class="pill">Systems Analysis and Design</span>
+            <span class="pill">Database Management</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="wrap-narrow">
+        <div class="section-head hidden-el">
+          <div class="eyebrow">Skills</div>
+          <h2>Tools and Strengths</h2>
+        </div>
+        <div class="skills-grid">
+          <article class="tech-card hidden-el">
+            <h3>Technical Skills</h3>
+            <div class="pillrow">
+              <span class="pill">File & Document Management</span>
+              <span class="pill">Hardware Troubleshooting</span>
+              <span class="pill">Software Troubleshooting</span>
+              <span class="pill">Basic Programming</span>
+              <span class="pill">Email Communication</span>
+              <span class="pill">Document Formatting</span>
+            </div>
+          </article>
+          <article class="tech-card hidden-el">
+            <h3>Soft Skills</h3>
+            <div class="pillrow">
+              <span class="pill">Respectful Communication</span>
+              <span class="pill">Teamwork</span>
+              <span class="pill">Time Management</span>
+              <span class="pill">Problem-Solving</span>
+              <span class="pill">Responsibility</span>
+              <span class="pill">Patience</span>
+              <span class="pill">Willingness to Learn</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="wrap-narrow">
+        <div class="section-head hidden-el">
+          <div class="eyebrow">Selected Work</div>
+          <h2>Projects</h2>
+        </div>
+        <div class="project-grid">
+          
+          <article class="tech-card hidden-el">
+            <h3>Barangay Villasis E-Barangay Services</h3>
+            <p>A web-based system for barangay services with an admin panel for staff and online services for residents.</p>
+            <div class="pillrow">
+              <span class="pill">Web Development</span>
+              <span class="pill">Database</span>
+              <span class="pill">Admin Panel</span>
+            </div>
+          </article>
+
+          <article class="tech-card hidden-el">
+            <h3>IT Helpdesk Ticketing System</h3>
+            <p>A basic ticketing system concept that allows users to submit IT issues and allows administrators to track and resolve them efficiently.</p>
+            <div class="pillrow"><span class="pill">Java</span><span class="pill">MySQL</span><span class="pill">UI Design</span></div>
+          </article>
+
+          <article class="tech-card hidden-el">
+            <h3>Basic Network Configuration</h3>
+            <p>Configured a small Local Area Network (LAN) for a practice laboratory, including IP addressing, cable crimping, and basic router security.</p>
+            <div class="pillrow"><span class="pill">Networking</span><span class="pill">Hardware</span></div>
+          </article>
+
+          <article class="tech-card hidden-el">
+            <h3>Hardware & Software Diagnostics</h3>
+            <p>Performed troubleshooting and maintenance on laboratory computers, identifying faulty components and performing system updates and OS reinstallations.</p>
+            <div class="pillrow"><span class="pill">Troubleshooting</span><span class="pill">OS Install</span></div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATES -->
+    <section id="profdev">
+      <div class="wrap-narrow">
+        <div class="section-head hidden-el">
+          <div class="eyebrow">Professional Development</div>
+          <h2>Certificates</h2>
+        </div>
+
+        <div class="cert-grid">
+          
+          <article class="cert-card hidden-el">
+            <h3>Certificate Title 1</h3>
+            <a href="cert1.jpg" target="_blank"><img class="cert-preview" src="cert1.jpg" alt="Certificate 1" /></a>
+            <div class="cert-actions"><a href="cert1.jpg" target="_blank">View</a><a href="cert1.jpg" download="Certificate-1.jpg" class="download">Save</a></div>
+          </article>
+
+          <article class="cert-card hidden-el">
+            <h3>Certificate Title 2</h3>
+            <a href="cert2.jpg" target="_blank"><img class="cert-preview" src="cert2.jpg" alt="Certificate 2" /></a>
+            <div class="cert-actions"><a href="cert2.jpg" target="_blank">View</a><a href="cert2.jpg" download="Certificate-2.jpg" class="download">Save</a></div>
+          </article>
+
+          <article class="cert-card hidden-el">
+            <h3>Certificate Title 3</h3>
+            <a href="cert3.jpg" target="_blank"><img class="cert-preview" src="cert3.jpg" alt="Certificate 3" /></a>
+            <div class="cert-actions"><a href="cert3.jpg" target="_blank">View</a><a href="cert3.jpg" download="Certificate-3.jpg" class="download">Save</a></div>
+          </article>
+
+          <article class="cert-card hidden-el">
+            <h3>Certificate Title 4</h3>
+            <a href="cert4.jpg" target="_blank"><img class="cert-preview" src="cert4.jpg" alt="Certificate 4" /></a>
+            <div class="cert-actions"><a href="cert4.jpg" target="_blank">View</a><a href="cert4.jpg" download="Certificate-4.jpg" class="download">Save</a></div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUME DOWNLOAD -->
+    <section id="resume">
+      <div class="wrap-narrow">
+        <div class="resume-band hidden-el">
+          <div>
+            <h2>Download my resume</h2>
+            <p>My resume is available for viewing and download.</p>
+          </div>
+          <a class="btn primary" href="resume.pdf" download="Justine-Fabros-Resume.pdf">Download Resume</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="wrap-narrow">
+        <div class="section-head hidden-el">
+          <div class="eyebrow">Contact</div>
+          <h2>Let's connect.</h2>
+        </div>
+        <div class="contact-grid">
+          <article class="tech-card hidden-el">
+            <h3>Contact Information</h3>
+            <p>Email: <a href="mailto:justinefabros3@gmail.com" style="color:var(--accent);">justinefabros3@gmail.com</a></p>
+            <p style="margin-top: 10px;">Phone: <a href="tel:+639497621022" style="color:var(--accent);">0949 762 1022</a></p>
+            <p style="margin-top: 10px;">Address: Divisoria, Santiago City, Isabela</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="text-align:center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--muted);">
+    <div class="wrap">
+      <p>© 2026 Justine Keil Fabros. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    // 1. Scroll Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { entry.target.classList.add('show-el'); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.hidden-el').forEach((el) => observer.observe(el));
+
+    // 2. MATRIX CODE RAIN BACKGROUND
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Characters to display (Katakana, Latin, Numbers)
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+{}|:"<>?';
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    
+    // Array to track the y-coordinate of each drop
+    const drops = [];
+    for (let x = 0; x < columns; x++) {
+      drops[x] = 1; 
+    }
+
+    function drawMatrix() {
+      // Fade the canvas slightly to create the trail effect
+      ctx.fillStyle = 'rgba(5, 20, 10, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#00ff87'; // Emerald green text
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        // Reset drop to top randomly to make it continuous
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 50);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const newColumns = canvas.width / fontSize;
+      for (let x = 0; x < newColumns; x++) {
+        if (drops[x] === undefined) drops[x] = 1;
+      }
+    });
+  </script>
+
 </body>
 </html>
